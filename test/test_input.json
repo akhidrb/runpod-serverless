@@ -1,0 +1,10 @@
+{
+  "input": {
+    "prompt": "a photo of an astronaut riding a horse on the moon, cinematic lighting",
+    "width": 1024,
+    "height": 1024,
+    "num_inference_steps": 28,
+    "guidance_scale": 3.5,
+    "seed": 42
+  }
+}
