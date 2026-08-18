@@ -1,0 +1,14 @@
+# Pins copied from huggingface/diffusers examples/dreambooth/requirements_flux.txt
+accelerate>=0.31.0
+torchvision
+transformers>=4.41.2
+ftfy
+tensorboard
+Jinja2
+peft>=0.11.1
+sentencepiece
+
+# Needed because train_lora.sh enables --use_8bit_adam by default
+bitsandbytes>=0.43.0
+
+Pillow>=10.4.0

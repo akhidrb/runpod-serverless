@@ -16,6 +16,9 @@ re-download ~24GB on every build.
 - `test/test_input.json` — sample payload for local handler testing.
 - `gradio_app/` — a small web app that calls your deployed endpoint's REST
   API and renders the generated image.
+- `training/` — optional DreamBooth LoRA fine-tuning on a custom
+  subject/character, using your own photos. Standalone flow, run on a
+  RunPod Pod — not wired into `endpoint/handler.py`. See `training/README.md`.
 
 ## 0. Prerequisites
 

@@ -6,3 +6,9 @@ venv/
 outputs/
 .DS_Store
 *.pdf
+
+# training artifacts (data lives on the RunPod volume, not in the repo)
+training/data/
+training/diffusers-src/
+*.safetensors
+verify_lora_output.png
