@@ -17,13 +17,12 @@ re-download ~24GB on every build.
 - `gradio_app/` — a small web app that calls your deployed endpoint's REST
   API and renders the generated image.
 
-## 0. Prerequisites (do these first — both are external dependencies with unknown turnaround)
+## 0. Prerequisites
 
 1. Request access to the gated model at
    https://huggingface.co/black-forest-labs/FLUX.1-dev and accept its
-   license. Approval time varies.
-2. Create a RunPod account, then email your account email to
-   `hailong.yang@runpod.io` (per the case study) to receive free credits.
+   license. Approval time varies, so do this first.
+2. RunPod account with credits — already set up.
 
 ## 1. Create and populate the network volume
 
