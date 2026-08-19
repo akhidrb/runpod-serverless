@@ -22,6 +22,12 @@ from huggingface_hub import snapshot_download
 REPO_ID = "black-forest-labs/FLUX.1-dev"
 DEFAULT_DEST = "/workspace/flux1-dev"
 
+# The repo also ships redundant single-file checkpoints (flux1-dev.safetensors,
+# ae.safetensors) for non-diffusers workflows like ComfyUI. FluxPipeline.from_pretrained
+# only reads the component subfolders + model_index.json, so skip these to avoid
+# downloading ~24GB of weights we'd never use.
+IGNORE_PATTERNS = ["flux1-dev.safetensors", "ae.safetensors"]
+
 
 def already_populated(dest: str) -> bool:
     return os.path.isfile(os.path.join(dest, "model_index.json"))
@@ -46,6 +52,7 @@ def main():
         repo_id=REPO_ID,
         local_dir=args.dest,
         token=token,
+        ignore_patterns=IGNORE_PATTERNS,
     )
 
     total_size = 0
