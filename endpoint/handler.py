@@ -28,11 +28,11 @@ if not os.path.isfile(os.path.join(MODEL_DIR, "model_index.json")):
 log.info("Loading FluxPipeline from %s ...", MODEL_DIR)
 pipe = FluxPipeline.from_pretrained(MODEL_DIR, torch_dtype=torch.bfloat16)
 if USE_CPU_OFFLOAD:
-    # Sequential (per-layer) offload, not just per-component: the FLUX
-    # transformer alone (~24GB in bf16) can exceed a GPU's usable VRAM by
-    # itself on <24GB-class cards, so component-level offload isn't enough.
-    # Much slower (layers shuttle CPU<->GPU every step) but reliably fits.
-    pipe.enable_sequential_cpu_offload()
+    # Component-level offload: keeps only one major component (transformer,
+    # text encoders, or vae) resident on GPU at a time. The transformer
+    # alone is ~24GB in bf16, so this needs a GPU with meaningfully more
+    # than 24GB usable VRAM to have any headroom -- won't fit on <24GB cards.
+    pipe.enable_model_cpu_offload()
     pipe.vae.enable_slicing()
     pipe.vae.enable_tiling()
 else:
