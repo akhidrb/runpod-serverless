@@ -1,7 +1,11 @@
 runpod>=1.7.0
-diffusers>=0.31.0
-transformers>=4.44.0
-accelerate>=0.34.0
+# diffusers/transformers pinned exact: newer releases require torch>=2.5,
+# which is newer than the torch 2.4.1 shipped in the runpod/pytorch base
+# image this Dockerfile uses. Bump these deliberately together with the
+# base image tag, not independently.
+diffusers==0.31.0
+transformers==4.46.3
+accelerate==0.34.2
 sentencepiece>=0.2.0
 safetensors>=0.4.3
 Pillow>=10.4.0
