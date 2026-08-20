@@ -29,6 +29,8 @@ log.info("Loading FluxPipeline from %s ...", MODEL_DIR)
 pipe = FluxPipeline.from_pretrained(MODEL_DIR, torch_dtype=torch.bfloat16)
 if USE_CPU_OFFLOAD:
     pipe.enable_model_cpu_offload()
+    pipe.vae.enable_slicing()
+    pipe.vae.enable_tiling()
 else:
     pipe = pipe.to("cuda")
 log.info("Model loaded, worker ready.")
@@ -91,12 +93,12 @@ def handler(job):
             generator=generator,
         )
         image = result.images[0]
-    except torch.cuda.OutOfMemoryError:
+    except torch.cuda.OutOfMemoryError as e:
         torch.cuda.empty_cache()
         return {
             "error": (
                 "CUDA out of memory. Try a smaller width/height or fewer "
-                "num_inference_steps."
+                f"num_inference_steps. Details: {e}"
             )
         }
     except Exception as e:
