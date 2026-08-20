@@ -50,8 +50,6 @@ def validate_input(job_input):
     if not isinstance(prompt, str) or not prompt.strip():
         raise ValueError("input.prompt is required and must be a non-empty string")
 
-    negative_prompt = job_input.get("negative_prompt") or None
-
     width = _round_to_multiple(_clamp(int(job_input.get("width", 1024)), MIN_DIM, MAX_DIM))
     height = _round_to_multiple(_clamp(int(job_input.get("height", 1024)), MIN_DIM, MAX_DIM))
 
@@ -64,7 +62,6 @@ def validate_input(job_input):
 
     return {
         "prompt": prompt,
-        "negative_prompt": negative_prompt,
         "width": width,
         "height": height,
         "num_inference_steps": num_inference_steps,
@@ -87,7 +84,6 @@ def handler(job):
     try:
         result = pipe(
             prompt=params["prompt"],
-            negative_prompt=params["negative_prompt"],
             width=params["width"],
             height=params["height"],
             num_inference_steps=params["num_inference_steps"],

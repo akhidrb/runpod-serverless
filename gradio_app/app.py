@@ -26,14 +26,13 @@ POLL_INTERVAL_SECONDS = 2
 OVERALL_TIMEOUT_SECONDS = 300
 
 
-def generate(prompt, negative_prompt, width, height, steps, guidance_scale, seed):
+def generate(prompt, width, height, steps, guidance_scale, seed):
     if not prompt or not prompt.strip():
         return None, "Error: prompt is required."
 
     payload = {
         "input": {
             "prompt": prompt,
-            "negative_prompt": negative_prompt or None,
             "width": int(width),
             "height": int(height),
             "num_inference_steps": int(steps),
@@ -97,11 +96,6 @@ with gr.Blocks(title="FLUX.1-dev on RunPod Serverless") as demo:
     with gr.Row():
         with gr.Column():
             prompt = gr.Textbox(label="Prompt", lines=3, placeholder="a photo of an astronaut riding a horse")
-            negative_prompt = gr.Textbox(
-                label="Negative prompt (optional)",
-                lines=2,
-                info="FLUX.1-dev is guidance-distilled; negative prompts have limited effect.",
-            )
             with gr.Row():
                 width = gr.Slider(512, 1536, value=1024, step=64, label="Width")
                 height = gr.Slider(512, 1536, value=1024, step=64, label="Height")
@@ -116,7 +110,7 @@ with gr.Blocks(title="FLUX.1-dev on RunPod Serverless") as demo:
 
     generate_btn.click(
         fn=generate,
-        inputs=[prompt, negative_prompt, width, height, steps, guidance_scale, seed],
+        inputs=[prompt, width, height, steps, guidance_scale, seed],
         outputs=[image_output, status_output],
     )
 

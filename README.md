@@ -122,8 +122,13 @@ recording your demo.
 
 ## Notes / known limitations
 
-- FLUX.1-dev is guidance-distilled: `negative_prompt` and `guidance_scale`
-  behave differently than in SD/SDXL and have limited effect.
+- FLUX.1-dev is guidance-distilled: its `FluxPipeline` doesn't accept
+  `negative_prompt` at all (unlike SD/SDXL), so the handler doesn't expose
+  it. `guidance_scale` is still supported but behaves differently than
+  classic CFG.
+- On GPUs with less than ~40GB VRAM, set `USE_CPU_OFFLOAD=true` on the
+  endpoint to enable `enable_model_cpu_offload()` — trades some latency for
+  fitting in less VRAM. Confirmed working on a 24GB RTX 4090.
 - Output is returned as base64-encoded PNG in the job response. For larger
   images or production use, uploading to object storage and returning a URL
   would scale better — out of scope for this exercise.
